@@ -1,0 +1,51 @@
+library(ggplot)
+
+=====================
+sample exploration between
+
+departure delay (dept_delay) and carrier
+carrier and distance
+departure time (dept_time) and departure delay (dept_delay)
+origin and carrier
+
+=======================
+dep_delay
+
+qplot(data=flights.clean,x=dep_delay,binwidth=50) #see data basics file for breakdown
+
+
+categorize the depart_delay into groups based on flights that are delayed by <15 minutes
+
+table(flights.clean$dep_delay <15) 
+
+table(flights$dep_delay >15)
+
+from above command, slipt dep_delay into two groups:
+ 
+"no_delay" -> dep_delay <15
+"delayed" -> dep_delay >15 
+
+flights.clean$dep_delayF=cut(flights.clean$dep_delay, breaks=c(-Inf,15,Inf))
+flights.clean$dep_delayF=factor(flights.clean$dep_delayF, levels(flights.clean$dep_delayF),
+labels=c(no delay, delayed))
+
+===========================
+dep_delayF and carrier
+
+qplot(data=flights.clean,x=carrier,fill=dep_delayF)
+
+===========================
+variable carrier and distance
+
+qplot(data=flights.clean,x=carrier,y=distance, color=red)
+
+============================
+variables hour and dep delayF
+
+qplot(data=flights.clean,x=hour,facets=.~dep_delayF,fill=dep_delayF, binwidth=0.8)
+
+=============================
+variables dep delayF and origin
+
+mosaic(formula=dep_delayF~origin,data=flights.clean)
+
